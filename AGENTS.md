@@ -109,7 +109,13 @@ de situación no cuesta lo que ocupa, sino eso multiplicado por todos los turnos
 1. Anotar la intención en `DIARIO.md` (2-3 líneas: qué y por qué).
 2. Confirmar el objetivo con el usuario antes de tocar código.
 
-**Al terminar, antes de cerrar — lista de comprobación:**
+**Al terminar, antes de cerrar** — primero se corre, y luego se mira lo que el programa
+no puede juzgar:
+
+```bash
+python herramientas/comprobar_cierre.py
+```
+
 1. ¿Diario actualizado con el **resultado**?
 2. ¿`ESTADO_ACTUAL.md` dice cuál es el siguiente paso?
 3. ¿`REGISTRO_BUGS.md` refleja el nuevo estado del bug?
@@ -118,6 +124,9 @@ de situación no cuesta lo que ocupa, sino eso multiplicado por todos los turnos
 6. ¿Verificado que no se rompió nada?
 
 Si algo de esto falta, **no se cierra la sesión todavía**.
+🔑 *Una regla que depende de que alguien la teclee no es una regla*: los puntos 1, 4 y 5 los
+comprueba `comprobar_cierre.py`; los demás hay que mirarlos. La tabla de qué se actualiza y
+dónde se apunta está en `PROTOCOLO_SESION.md` §5.
 
 **Cuándo pedir que se cierre la sesión**: cuando el asunto esté terminado y registrado, o cuando se
 vea que va a alargarse. Decirlo explícitamente: *«esto está registrado, puedes cerrar y retomamos

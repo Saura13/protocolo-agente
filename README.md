@@ -39,7 +39,7 @@ De ahí salen las tres decisiones que gobiernan todo lo demás:
 | **[`PROTOCOLO_SESION.md`](PROTOCOLO_SESION.md)** | Cómo se abre, se lleva y se cierra una sesión. La lista de comprobación antes de cerrar |
 | **[`LOS_DOCUMENTOS.md`](LOS_DOCUMENTOS.md)** | Qué función fija tiene cada documento, su techo de líneas y qué NO va en él |
 | **[`CRITERIOS.md`](CRITERIOS.md)** | Las lecciones que sobreviven al proyecto. Sobre todo: cómo se mide algo sin engañarse |
-| **[`herramientas/`](herramientas/)** | Los cuatro programas: tres generan mapas, uno mide lo que cuesta cada sesión |
+| **[`herramientas/`](herramientas/)** | Los cinco programas: tres generan mapas, uno mide lo que cuesta cada sesión y otro **comprueba que se puede cerrar** |
 | **[`plantillas/`](plantillas/)** | Los documentos vacíos, listos para copiar |
 
 ---
@@ -59,7 +59,13 @@ git clone <este-repositorio> && cd protocolo-agente
 python herramientas/generar_mapa_codigo.py
 ```
 
-5. Al terminar la primera sesión, mide lo que costó:
+5. Antes de cerrar la sesión, comprueba que se puede:
+
+```bash
+python herramientas/comprobar_cierre.py
+```
+
+6. Y mide lo que costó:
 
 ```bash
 python herramientas/medir_cuota_sesion.py

@@ -21,6 +21,19 @@
 
   "excluir": ["node_modules", "__pycache__", "venv", ".venv", ".git", "dist", "build"],
 
+  "cierre": {
+    "techos": {
+      "AGENTS.md": 200,
+      "docs/VIAS_DE_TRABAJO.md": 120,
+      "docs/ESTADO_ACTUAL.md": 400
+    },
+    "diario": "docs/DIARIO.md",
+    "marcador_resultado": "### RESULTADO",
+    "marcador_entrada": "## ",
+    "mapas": ["docs/MAPA_CODIGO.md", "docs/MAPA_HERRAMIENTAS.md"]
+  },
+  "_cierre": "Lo que comprueba comprobar_cierre.py. Los techos son los de los documentos que se leen al arrancar: si uno se pasa, se poda ANTES de cerrar. Los mapas se comparan con la fecha del código: uno más viejo que el código apunta a líneas equivocadas.",
+
   "remoto": {
     "host": "usuario@maquina",
     "ruta": "/ruta/al/codigo",

@@ -99,18 +99,42 @@ posterior vuelve a arrastrar la conversación entera.
 
 ---
 
-## 5 · El cierre — la lista de comprobación
+## 5 · El cierre — qué se actualiza y dónde se apunta
 
-**No se cierra la sesión hasta que estas seis están hechas:**
+**Lo primero: correrlo, no recordarlo.**
 
-1. ¿**Diario** actualizado con el resultado?
-2. ¿El **estado** dice cuál es el siguiente paso? (lo lee la siguiente sesión, no tú)
-3. ¿El **registro de bugs** refleja el nuevo estado?
-4. ¿**Mapa de código regenerado**, si se movió o añadió alguna función?
-5. ¿**Commit** hecho, con mensaje que explique **el porqué**?
-6. ¿**Verificado** que no se rompió nada?
+```bash
+python herramientas/comprobar_cierre.py
+```
 
-Y decirlo explícitamente cuando esté: *«esto está registrado, puedes cerrar y retomamos con contexto
+🔑 *Una regla que depende de que alguien la teclee no es una regla.* La lista de abajo estaba
+escrita y aun así se saltaba, porque cumplirla exigía acordarse **justo cuando el contexto se está
+agotando** — el peor momento posible para acordarse de nada.
+
+### La tabla del cierre
+
+| Qué se actualiza | Dónde se apunta | Quién lo comprueba |
+|:---|:---|:---|
+| **Cómo acabó** el trabajo | `DIARIO.md`, bajo `### RESULTADO` en la entrada de hoy | ✅ el programa |
+| **Cuál es el siguiente paso** | `ESTADO_ACTUAL.md` | 👤 a mano |
+| **En qué quedó el bug** | `REGISTRO_BUGS.md` | 👤 a mano |
+| **Qué frente queda abierto** | `VIAS_DE_TRABAJO.md`, si cambió | 👤 a mano |
+| **La lección**, si vale fuera del caso | `CRITERIOS.md` | 👤 a mano |
+| **Dónde vive ahora cada función** | Regenerar `MAPA_CODIGO.md` | ✅ el programa |
+| **Los techos de línea** | Podar el documento que se pasó | ✅ el programa |
+| **Todo lo anterior, junto** | Un commit que explique el porqué | ✅ el programa (que exista) |
+
+**Qué comprueba el programa**: techos de líneas de los documentos de arranque · que la última
+entrada del diario tenga `### RESULTADO` · que ningún mapa sea más viejo que el código que mapea ·
+que no queden cambios sin registrar en git. Sale con código 1 si algo falta.
+
+**Qué no puede comprobar, y por eso lo recuerda al final**: si el siguiente paso está de verdad
+escrito, si el registro de bugs refleja la realidad de hoy, si el mensaje del commit explica el
+porqué, y si la verificación se hizo **por donde entra el usuario**.
+
+### Y decirlo
+
+Cuando esté, decirlo explícitamente: *«esto está registrado, puedes cerrar y retomamos con contexto
 limpio»*. El usuario no tiene por qué adivinar cuándo es seguro cerrar.
 
 ---
