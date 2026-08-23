@@ -1,0 +1,30 @@
+{
+  "_comentario": "Copia este fichero a la raíz de tu proyecto como protocolo.config.json y rellénalo. Las herramientas no llevan dentro ninguna ruta: todas salen de aquí.",
+
+  "salida": "docs",
+  "_salida": "Carpeta donde se escriben los mapas generados, relativa a la raíz del proyecto.",
+
+  "herramientas": "herramientas",
+  "_herramientas": "Carpeta que contiene tus scripts, para el mapa de herramientas.",
+
+  "zonas": [
+    { "titulo": "API (el backend que corre en :8000)", "ruta": "src/api" },
+    { "titulo": "Frontend", "ruta": "src/web" },
+    { "titulo": "Scripts de despliegue", "ruta": "scripts" }
+  ],
+  "_zonas": "Las carpetas donde vive el código que importa, con el nombre que le das tú. Si una zona declarada no existe, el generador grita en vez de sacar un mapa corto sin avisar.",
+
+  "umbral_detalle": 150,
+  "_umbral_detalle": "Por debajo de estas líneas, un fichero no necesita mapa: se abre entero sin coste.",
+
+  "extensiones": [".py", ".html", ".js"],
+
+  "excluir": ["node_modules", "__pycache__", "venv", ".venv", ".git", "dist", "build"],
+
+  "remoto": {
+    "host": "usuario@maquina",
+    "ruta": "/ruta/al/codigo",
+    "prefijos_desechables": ["test_", "check_", "tmp_"]
+  },
+  "_remoto": "Solo si parte del código vive fuera del repositorio. Si no es el caso, borra esta clave entera y no uses generar_mapa_servidor.py. Los prefijos excluyen scripts de usar y tirar por FORMA, no por lista de nombres: uno nuevo con ese prefijo queda excluido solo."
+}
