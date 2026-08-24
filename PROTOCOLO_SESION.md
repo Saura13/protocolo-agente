@@ -54,6 +54,21 @@ grande o se complica: **registrar, cerrar, y empezar con contexto limpio**.
 
 Tener varios frentes abiertos no autoriza a saltar de uno a otro dentro de la misma sesión.
 
+### El hallazgo que no es de hoy
+
+La regla de arriba dice **no tires del hilo**. Le falta la otra mitad: **dónde se deja el hilo.**
+Una regla que te prohíbe perseguir algo sin decirte dónde apuntarlo se incumple sola — si no hay
+sitio, o lo persigues y pierdes la sesión, o lo pierdes a secas.
+
+**Cuando aparece algo roto que no es el asunto de hoy**: se anota en `REGISTRO_BUGS.md` como 🔴,
+dos líneas, con **el síntoma y la fecha, y sin diagnosticar**. No se busca la causa: buscarla ya es
+tirar del hilo. Y se sigue con lo de hoy.
+
+🔑 **Anotar no es aplazar; perseguir sí es abandonar lo de hoy.**
+
+⚠️ **La excepción**: si lo que ha aparecido **hace inútil el trabajo de hoy**, no es un hallazgo al
+margen — es un hallazgo que cambia el plan, y se dice en el momento (§4).
+
 ---
 
 ## 3 · Registrar al empezar, no al terminar
@@ -117,7 +132,8 @@ agotando** — el peor momento posible para acordarse de nada.
 |:---|:---|:---|
 | **Cómo acabó** el trabajo | `DIARIO.md`, bajo `### RESULTADO` en la entrada de hoy | ✅ el programa |
 | **Cuál es el siguiente paso** | `ESTADO_ACTUAL.md` | 👤 a mano |
-| **En qué quedó el bug** | `REGISTRO_BUGS.md` | 👤 a mano |
+| **En qué quedó el bug** que se traía | `REGISTRO_BUGS.md` | 👤 a mano |
+| **Lo roto que apareció de paso** | `REGISTRO_BUGS.md`, como 🔴 sin diagnosticar | 👤 a mano |
 | **Qué frente queda abierto** | `VIAS_DE_TRABAJO.md`, si cambió | 👤 a mano |
 | **La lección**, si vale fuera del caso | `CRITERIOS.md` | 👤 a mano |
 | **Dónde vive ahora cada función** | Regenerar `MAPA_CODIGO.md` | ✅ el programa |

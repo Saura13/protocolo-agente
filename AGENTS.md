@@ -118,13 +118,14 @@ python herramientas/comprobar_cierre.py
 
 1. ¿Diario actualizado con el **resultado**?
 2. ¿`ESTADO_ACTUAL.md` dice cuál es el siguiente paso?
-3. ¿`REGISTRO_BUGS.md` refleja el nuevo estado del bug?
-4. ¿**Mapa de código regenerado**, si se movió o añadió alguna función?
-5. ¿Commit hecho, con mensaje que explique **el porqué**?
-6. ¿Verificado que no se rompió nada?
+3. ¿`REGISTRO_BUGS.md` refleja el nuevo estado del bug **que se traía**?
+4. ¿Y **lo roto que apareció de paso**, anotado ahí como 🔴 sin diagnosticar?
+5. ¿**Mapa de código regenerado**, si se movió o añadió alguna función?
+6. ¿Commit hecho, con mensaje que explique **el porqué**?
+7. ¿Verificado que no se rompió nada?
 
 Si algo de esto falta, **no se cierra la sesión todavía**.
-🔑 *Una regla que depende de que alguien la teclee no es una regla*: los puntos 1, 4 y 5 los
+🔑 *Una regla que depende de que alguien la teclee no es una regla*: los puntos 1, 5 y 6 los
 comprueba `comprobar_cierre.py`; los demás hay que mirarlos. La tabla de qué se actualiza y
 dónde se apunta está en `PROTOCOLO_SESION.md` §5.
 

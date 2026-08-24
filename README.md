@@ -1,98 +1,121 @@
-# Protocolo de agente
+# Agent Protocol
 
-**Un método para llevar un proyecto largo con un agente de IA sin que se pierda entre sesiones.**
+**A method for running a long project with an AI agent without it losing the thread between
+sessions.**
 
-No es una librería ni una herramienta. Son **seis documentos y cuatro programas** que resuelven un
-problema concreto: cuando un proyecto dura meses, cada sesión con el agente empieza a ciegas. Se le
-vuelve a explicar todo, se le paga el contexto entero, y aun así toma decisiones que contradicen las
-de la semana pasada.
+*[🇪🇸 Léelo en castellano](README.es.md) — the protocol documents themselves are in Spanish.
+See [Language](#language) below.*
 
-Este protocolo se escribió trabajando, no en abstracto. Nació de un proyecto real de un año, y cada
-regla de aquí existe porque algo se rompió antes.
+It is not a library and not a tool. It is **six documents and five programs** that solve one
+concrete problem: when a project runs for months, every session starts blind. You explain
+everything again, you pay for the whole context, and the agent still makes decisions that
+contradict last week's.
 
----
-
-## El problema, en una frase
-
-> Un agente no tiene memoria entre sesiones. Lo único que sabe es lo que lee al arrancar.
-> **Así que lo que lee al arrancar es el diseño más importante del proyecto.**
-
-De ahí salen las tres decisiones que gobiernan todo lo demás:
-
-1. **El arranque es un presupuesto, no un saludo.** Cada línea que el agente lee al empezar se paga
-   en **todas** las sesiones, para siempre. Un documento de 400 líneas que se abre "por si acaso"
-   cuesta más que el trabajo que iba a hacer.
-2. **Cada documento tiene una función y solo una.** Qué hay abierto, dónde estamos, qué pasó, qué
-   está roto, qué se aprendió. En cuanto dos documentos cuentan lo mismo, uno de los dos miente —
-   y no sabes cuál.
-3. **Los mapas se generan, no se escriben.** Un índice mantenido a mano apunta a líneas equivocadas
-   en cuanto alguien mueve una función. Un índice que miente es peor que no tener índice.
+This protocol was written while working, not in the abstract. It came out of a real year-long
+project, and every rule here exists because something broke first.
 
 ---
 
-## Qué hay aquí
+## The problem, in one sentence
 
-| Fichero | Qué resuelve |
+> An agent has no memory between sessions. All it knows is what it reads at startup.
+> **So what it reads at startup is the most important design decision in the project.**
+
+Three decisions follow from that, and they govern everything else:
+
+1. **Startup is a budget, not a greeting.** Every line the agent reads at the start is paid for in
+   **every** session, forever. A 400-line document opened "just in case" costs more than the work
+   it was meant to enable.
+2. **Each document has one job and only one.** What is open, where we are, what happened, what is
+   broken, what we learned. The moment two documents say the same thing, one of them is lying —
+   and you don't know which.
+3. **Maps are generated, not written.** A hand-maintained index points at the wrong lines as soon
+   as someone moves a function. An index that lies is worse than no index.
+
+---
+
+## What is here
+
+| File | What it solves |
 |:---|:---|
-| **[`AGENTS.md`](AGENTS.md)** | La plantilla del mapa de arranque. **Es la pieza central**: lo que el agente lee al abrir cada sesión |
-| **[`CLAUDE.md`](CLAUDE.md)** | Un puntero de una línea a `AGENTS.md`, porque Claude Code no lee `AGENTS.md` de forma nativa |
-| **[`PROTOCOLO_SESION.md`](PROTOCOLO_SESION.md)** | Cómo se abre, se lleva y se cierra una sesión. La lista de comprobación antes de cerrar |
-| **[`LOS_DOCUMENTOS.md`](LOS_DOCUMENTOS.md)** | Qué función fija tiene cada documento, su techo de líneas y qué NO va en él |
-| **[`CRITERIOS.md`](CRITERIOS.md)** | Las lecciones que sobreviven al proyecto. Sobre todo: cómo se mide algo sin engañarse |
-| **[`herramientas/`](herramientas/)** | Los cinco programas: tres generan mapas, uno mide lo que cuesta cada sesión y otro **comprueba que se puede cerrar** |
-| **[`plantillas/`](plantillas/)** | Los documentos vacíos, listos para copiar |
+| **[`AGENTS.md`](AGENTS.md)** | The startup-map template. **The central piece**: what the agent reads when it opens each session |
+| **[`CLAUDE.md`](CLAUDE.md)** | A one-line pointer to `AGENTS.md`, because Claude Code does not read `AGENTS.md` natively |
+| **[`PROTOCOLO_SESION.md`](PROTOCOLO_SESION.md)** | How a session is opened, run and closed. The checklist before closing |
+| **[`LOS_DOCUMENTOS.md`](LOS_DOCUMENTOS.md)** | The fixed job of each document, its line ceiling, and what does *not* go in it |
+| **[`CRITERIOS.md`](CRITERIOS.md)** | The lessons that outlive the project. Above all: how to measure something without fooling yourself |
+| **[`herramientas/`](herramientas/)** | The five programs: three generate maps, one measures what a session costs, one **checks that you are allowed to close** |
+| **[`plantillas/`](plantillas/)** | The empty documents, ready to copy |
 
 ---
 
-## Empezar
+## Getting started
 
 ```bash
-git clone <este-repositorio> && cd protocolo-agente
+git clone <this-repository> && cd protocolo-agente
 ```
 
-1. Copia `AGENTS.md`, `CLAUDE.md` y la carpeta `plantillas/` a la raíz de tu proyecto.
-2. Rellena los `<marcadores>` de `AGENTS.md`. Son pocos a propósito.
-3. Copia `herramientas/` y crea tu `protocolo.config.json` (hay un ejemplo dentro).
-4. Genera el primer mapa de código:
+1. Copy `AGENTS.md`, `CLAUDE.md` and the `plantillas/` folder into the root of your project.
+2. Fill in the `<placeholders>` in `AGENTS.md`. There are deliberately few.
+3. Copy `herramientas/` and create your `protocolo.config.json` (there is an example inside).
+4. Generate the first code map:
 
 ```bash
 python herramientas/generar_mapa_codigo.py
 ```
 
-5. Antes de cerrar la sesión, comprueba que se puede:
+5. Before closing the session, check that you can:
 
 ```bash
 python herramientas/comprobar_cierre.py
 ```
 
-6. Y mide lo que costó:
+6. And measure what it cost:
 
 ```bash
 python herramientas/medir_cuota_sesion.py
 ```
 
-Ese último número es el que ordena todo lo demás. **Antes de optimizar nada, mide qué fracción del
-problema es.** En el proyecto de origen, el arranque costaba 61.101 tokens y la intuición decía que
-sobraba documentación — pero al medirlo, **el 81% era configuración del entorno** y los documentos
-propios eran el 19%. Podar documentos habría atacado un quinto del problema.
+That last number is the one that orders everything else. **Before optimising anything, measure what
+fraction of the problem it is.** In the project this came from, startup cost 61,101 tokens and
+intuition said there was too much documentation — but once measured, **81% was environment
+configuration** and the project's own documents were 19%. Pruning documents would have attacked one
+fifth of the problem.
 
 ---
 
-## Sobre qué agentes funciona
+## Which agents this works with
 
-El contenido vive en **`AGENTS.md`**, el estándar abierto que desde diciembre de 2025 gobierna la
-Agentic AI Foundation de la Linux Foundation y que leen más de treinta agentes: OpenAI Codex, GitHub
-Copilot, Cursor, Gemini CLI, Google Antigravity, OpenCode, Zed, Windsurf, Aider, Jules, Devin.
+The content lives in **`AGENTS.md`**, the open standard that since December 2025 is governed by the
+Linux Foundation's Agentic AI Foundation and is read by more than thirty agents: OpenAI Codex,
+GitHub Copilot, Cursor, Gemini CLI, Google Antigravity, OpenCode, Zed, Windsurf, Aider, Jules,
+Devin.
 
-**Claude Code es la excepción**: no lee `AGENTS.md` de forma nativa. Por eso este repositorio
-incluye un `CLAUDE.md` que **no duplica el contenido**, solo lo importa con una línea.
+**Claude Code is the exception**: it does not read `AGENTS.md` natively. That is why this repository
+ships a `CLAUDE.md` that **does not duplicate the content** — it imports it in one line.
 
-> ⚠️ **No copies el mismo texto en varios ficheros.** Es la tentación obvia y se pudre sola: a las
-> tres semanas no hay dos copias iguales y nadie sabe cuál manda. El contenido va en `AGENTS.md`;
-> todo lo demás apunta a él.
+> ⚠️ **Do not copy the same text into several files.** It is the obvious temptation and it rots on
+> its own: three weeks later no two copies match and nobody knows which one is authoritative. The
+> content lives in `AGENTS.md`; everything else points at it.
 
 ---
 
-## Licencia
+## Language
 
-MIT. Úsalo, córtalo y cámbialo.
+The five protocol documents are **written in Spanish**, and this README is the English entry point.
+That is a deliberate choice rather than an oversight:
+
+- The documents you are reading here are read **once, by a person**. They cost the agent nothing.
+- The files that are actually loaded into every session — `AGENTS.md` and `plantillas/` — are where
+  language costs tokens, and they are the ones worth translating first.
+- Translating everything would mean two full copies of the same rules, which is precisely the
+  failure this repository warns against in the box above.
+
+**If you want an English `AGENTS.md` and templates, open an issue.** That is the translation that
+pays for itself, and it will be done properly — with one version declared authoritative — rather
+than by duplicating the lot.
+
+---
+
+## Licence
+
+MIT. Use it, cut it up, change it.

@@ -90,6 +90,10 @@ medias que nadie ha contado.
 
 Síntoma → causa → solución, un bloque por bug, numerados y con estado.
 
+**Y es donde se deja el hilo.** Cuando aparece algo roto que no es el asunto de hoy, aquí es
+donde se anota — 🔴, dos líneas, síntoma y fecha, **sin diagnosticar**— y se sigue con lo de hoy.
+Sin este sitio, la regla de un asunto por sesión se incumple sola. Ver `PROTOCOLO_SESION.md` §2.
+
 ⚠️ **La trampa de este documento**, y cuesta cara: *un bug registrado describe el sistema del día en
 que se escribió*. Un registro con cuarenta bugs abiertos no significa que haya cuarenta cosas rotas
 — significa que hay cuarenta **anotaciones**, y varias describen un sistema que ya no existe.
