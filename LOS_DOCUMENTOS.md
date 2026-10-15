@@ -37,6 +37,10 @@ bugs; lo que se aprendió son los criterios.
 🔑 **Si una entrada de este fichero empieza a narrar una sesión, está en el sitio equivocado.** Es
 la señal de alarma más fiable que existe, y aparece sola cada pocas semanas.
 
+Si tienes varias vías, no lo escribas a mano: `generar_vias.py` lo arma desde una ficha por vía
+(`docs/vias/`), y `comprobar_cierre.py` avisa si la hoja se ha quedado atrás de las fichas. Así el techo se
+respeta por construcción y cada vía edita solo lo suyo.
+
 Estructura por frente:
 
 ```markdown
@@ -78,7 +82,8 @@ Una entrada por sesión, siempre con dos partes: la **INTENCIÓN** (escrita ante
 **RESULTADO** (escrito al terminar, debajo, sin borrar la intención).
 
 Crece sin límite y **no pasa nada**, porque nunca se lee entero: el arranque lee la última entrada
-desde su `### RESULTADO`.
+desde su `### RESULTADO`. Si prefieres que ni el fichero crezca, puede ser una carpeta con uno por mes
+(`AAAA-MM.md`); `apuntar.py` escribe en el del mes en curso y `consultar.py` busca en todos.
 
 Ese marcador hace un trabajo doble que conviene entender: si la última entrada **no lo tiene**,
 significa que la sesión se cortó a la mitad — y entonces sí se lee entera, porque hay trabajo a

@@ -19,7 +19,9 @@ Cuando el usuario escriba eso, hacer **exactamente esto y nada más**:
 3. Del documento de esa vía, leer **solo la sección del paso que toca** — `VIAS_DE_TRABAJO.md` ya
    ha dicho cuál es —, **no el documento entero**. Y del diario, la última entrada **desde su
    `### RESULTADO`**; solo si esa entrada no tiene RESULTADO (sesión cortada a medias) se lee
-   entera. 🔑 *Lo que la vía ya te ha dicho no se vuelve a pagar.*
+   entera. 🔑 *Lo que la vía ya te ha dicho no se vuelve a pagar.* Si los documentos ya son grandes,
+   no se leen para buscar: se **pregunta** — `python herramientas/consultar.py "<tema>"` da diez
+   trozos con fichero:línea, y `--avisos <vía>` enseña lo que otras vías decidieron que te toca.
 4. Comprobar que el sistema responde: `<comando de vida: un ping, un docker ps, un curl>`
 5. Responder en **menos de 15 líneas**: dónde estamos, cuál es el siguiente paso, qué está
    bloqueado. Y **esperar el visto bueno** antes de tocar nada.

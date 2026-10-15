@@ -42,6 +42,10 @@ paga una vez, se paga en **todas** las sesiones que queden de proyecto.
 | El estado (`ESTADO_ACTUAL.md`) | 400 | Se lee cuando toca, no siempre |
 | El diario, los bugs, los criterios | *sin techo* | Se leen **por trozos**, nunca enteros |
 
+Un techo de líneas solo no para una línea de veinte mil caracteres: en `protocolo.config.json` un techo puede
+llevar también **caracteres** (`{ "lineas": 120, "caracteres": 16000 }`). Y el diario puede ser una carpeta con
+un fichero por mes, para que ni siquiera él crezca sin límite.
+
 ---
 
 ## 2 · Un solo asunto por sesión
@@ -142,7 +146,13 @@ agotando** — el peor momento posible para acordarse de nada.
 
 **Qué comprueba el programa**: techos de líneas de los documentos de arranque · que la última
 entrada del diario tenga `### RESULTADO` · que ningún mapa sea más viejo que el código que mapea ·
-que no queden cambios sin registrar en git. Sale con código 1 si algo falta.
+que no queden cambios sin registrar en git · y, si llevas la hoja de vías generada, que esté al día. Sale con
+código 1 si algo falta.
+
+**Y los programas que ahorran leer**: `apuntar.py` escribe la entrada del diario y los avisos entre vías con su
+formato y bajo cerrojo (así dos sesiones a la vez no se pisan, y la fecha no se la inventa el agente);
+`consultar.py` contesta «qué toca a X» desde el índice que genera `indice.py`; `generar_vias.py` arma
+`VIAS_DE_TRABAJO.md` a partir de una ficha por vía. Todo se declara en `protocolo.config.json`.
 
 **Qué no puede comprobar, y por eso lo recuerda al final**: si el siguiente paso está de verdad
 escrito, si el registro de bugs refleja la realidad de hoy, si el mensaje del commit explica el
