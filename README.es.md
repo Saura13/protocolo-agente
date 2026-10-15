@@ -4,7 +4,7 @@
 
 *[🇬🇧 Read it in English](README.md)*
 
-No es una librería ni una herramienta. Son **seis documentos y cinco programas** que resuelven un
+No es una librería ni una herramienta. Son **seis documentos y nueve programas** que resuelven un
 problema concreto: cuando un proyecto dura meses, cada sesión con el agente empieza a ciegas. Se le
 vuelve a explicar todo, se le paga el contexto entero, y aun así toma decisiones que contradicen las
 de la semana pasada.
@@ -41,7 +41,7 @@ De ahí salen las tres decisiones que gobiernan todo lo demás:
 | **[`PROTOCOLO_SESION.md`](PROTOCOLO_SESION.md)** | Cómo se abre, se lleva y se cierra una sesión. La lista de comprobación antes de cerrar |
 | **[`LOS_DOCUMENTOS.md`](LOS_DOCUMENTOS.md)** | Qué función fija tiene cada documento, su techo de líneas y qué NO va en él |
 | **[`CRITERIOS.md`](CRITERIOS.md)** | Las lecciones que sobreviven al proyecto. Sobre todo: cómo se mide algo sin engañarse |
-| **[`herramientas/`](herramientas/)** | Los cinco programas: tres generan mapas, uno mide lo que cuesta cada sesión y otro **comprueba que se puede cerrar** |
+| **[`herramientas/`](herramientas/)** | Los programas: tres generan mapas, uno mide lo que cuesta cada sesión, otro **comprueba que se puede cerrar** y cuatro **dejan preguntar a los documentos en vez de leerlos enteros** (`indice.py`, `consultar.py`, `apuntar.py`, `generar_vias.py`) |
 | **[`plantillas/`](plantillas/)** | Los documentos vacíos, listos para copiar |
 
 ---
@@ -72,6 +72,17 @@ python herramientas/comprobar_cierre.py
 ```bash
 python herramientas/medir_cuota_sesion.py
 ```
+
+7. Cuando los documentos crezcan, deja de leerlos enteros. Genera el índice y pregúntale:
+
+```bash
+python herramientas/indice.py                       # genera el índice SQLite (sin dependencias)
+python herramientas/consultar.py "qué toca a X"     # diez trozos con fichero:línea
+python herramientas/apuntar.py                      # escribe diario y avisos, bajo cerrojo
+python herramientas/generar_vias.py                 # genera la hoja de vías desde una ficha por vía
+```
+
+Todo se configura en `protocolo.config.json` (`indice`, `vias`, `avisos`, techos en caracteres en `cierre`).
 
 Ese último número es el que ordena todo lo demás. **Antes de optimizar nada, mide qué fracción del
 problema es.** En el proyecto de origen, el arranque costaba 61.101 tokens y la intuición decía que

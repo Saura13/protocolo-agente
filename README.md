@@ -6,7 +6,7 @@ sessions.**
 *[🇪🇸 Léelo en castellano](README.es.md) — the protocol documents themselves are in Spanish.
 See [Language](#language) below.*
 
-It is not a library and not a tool. It is **six documents and five programs** that solve one
+It is not a library and not a tool. It is **six documents and nine programs** that solve one
 concrete problem: when a project runs for months, every session starts blind. You explain
 everything again, you pay for the whole context, and the agent still makes decisions that
 contradict last week's.
@@ -43,7 +43,7 @@ Three decisions follow from that, and they govern everything else:
 | **[`PROTOCOLO_SESION.md`](PROTOCOLO_SESION.md)** | How a session is opened, run and closed. The checklist before closing |
 | **[`LOS_DOCUMENTOS.md`](LOS_DOCUMENTOS.md)** | The fixed job of each document, its line ceiling, and what does *not* go in it |
 | **[`CRITERIOS.md`](CRITERIOS.md)** | The lessons that outlive the project. Above all: how to measure something without fooling yourself |
-| **[`herramientas/`](herramientas/)** | The five programs: three generate maps, one measures what a session costs, one **checks that you are allowed to close** |
+| **[`herramientas/`](herramientas/)** | The programs: three generate maps, one measures what a session costs, one **checks that you are allowed to close**, and four that **let you ask the documents instead of reading them** (`indice.py`, `consultar.py`, `apuntar.py`, `generar_vias.py`) |
 | **[`plantillas/`](plantillas/)** | The empty documents, ready to copy |
 
 ---
@@ -74,6 +74,17 @@ python herramientas/comprobar_cierre.py
 ```bash
 python herramientas/medir_cuota_sesion.py
 ```
+
+7. Once the documents grow, stop reading them whole. Build the index and ask it:
+
+```bash
+python herramientas/indice.py                       # generates the SQLite index (no dependencies)
+python herramientas/consultar.py "what touches X"   # ten chunks with file:line
+python herramientas/apuntar.py                      # writes diary entries and notices, under lock
+python herramientas/generar_vias.py                 # builds the tracks sheet from one card per track
+```
+
+Everything is configured in `protocolo.config.json` (`indice`, `vias`, `avisos`, character ceilings in `cierre`).
 
 That last number is the one that orders everything else. **Before optimising anything, measure what
 fraction of the problem it is.** In the project this came from, startup cost 61,101 tokens and
