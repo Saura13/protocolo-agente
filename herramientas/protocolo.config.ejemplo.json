@@ -24,15 +24,36 @@
   "cierre": {
     "techos": {
       "AGENTS.md": 200,
-      "docs/VIAS_DE_TRABAJO.md": 120,
+      "docs/VIAS_DE_TRABAJO.md": { "lineas": 120, "caracteres": 16000 },
       "docs/ESTADO_ACTUAL.md": 400
     },
-    "diario": "docs/DIARIO.md",
+    "_techos": "Un número es un techo de líneas; un diccionario puede llevar también caracteres. Un techo de líneas solo no para una línea de veinte mil caracteres.",
+    "diario": "docs/diario",
+    "_diario": "Un fichero (docs/DIARIO.md) o una carpeta con un fichero por mes (AAAA-MM.md): la carpeta no crece sin techo. apuntar.py escribe en el del mes en curso.",
     "marcador_resultado": "### RESULTADO",
     "marcador_entrada": "## ",
     "mapas": ["docs/MAPA_CODIGO.md", "docs/MAPA_HERRAMIENTAS.md"]
   },
   "_cierre": "Lo que comprueba comprobar_cierre.py. Los techos son los de los documentos que se leen al arrancar: si uno se pasa, se poda ANTES de cerrar. Los mapas se comparan con la fecha del código: uno más viejo que el código apunta a líneas equivocadas.",
+
+  "indice": {
+    "base": ".indice/protocolo.sqlite",
+    "identificadores": ["BUG-\\d{3,}"],
+    "fuentes": [
+      { "tipo": "diario", "ruta": "docs/diario/*.md", "corte": "^## " },
+      { "tipo": "bug", "ruta": "docs/REGISTRO_BUGS.md", "corte": "^(#{2,3} |\\| (\\*\\*)?BUG-)" },
+      { "tipo": "criterio", "ruta": "docs/CRITERIOS.md", "corte": "^#{2,3} " },
+      { "tipo": "memoria", "ruta": "~/.claude/projects/TU-PROYECTO/memory/*.md", "corte": null, "opcional": true },
+      { "tipo": "doc", "ruta": "docs/*.md", "corte": "^#{2,3} " }
+    ]
+  },
+  "_indice": "Lo que indexa indice.py y pregunta consultar.py. La base se genera: añade .indice/ al .gitignore. Cada fuente se trocea por su «corte» (null: el fichero es un solo trozo, como una nota de memoria). La primera fuente que coge un fichero manda: lo concreto va antes que lo general. Un «identificador» nombrado en cualquier trozo ya es un enlace hacia él; [[nombre]] también.",
+
+  "vias": { "fichas": "docs/vias", "salida": "docs/VIAS_DE_TRABAJO.md", "techo_ficha": 2000 },
+  "_vias": "La hoja de vías se genera de una ficha por vía (generar_vias.py) y el cierre comprueba que esté al día. Bórralo si llevas la hoja a mano.",
+
+  "avisos": "docs/AVISOS_ENTRE_VIAS.md",
+  "_avisos": "Lo que una vía decide y cambia a otra: apuntar.py aviso lo deja; consultar.py --avisos X lo enseña al abrir X.",
 
   "remoto": {
     "host": "usuario@maquina",
