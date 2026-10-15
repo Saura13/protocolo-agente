@@ -5,3 +5,4 @@ venv/
 protocolo.config.json
 docs/
 .indice/
+*.cerrojo
