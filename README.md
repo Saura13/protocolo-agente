@@ -86,6 +86,13 @@ python herramientas/generar_vias.py                 # builds the tracks sheet fr
 
 Everything is configured in `protocolo.config.json` (`indice`, `vias`, `avisos`, character ceilings in `cierre`).
 
+8. **Before writing a new tool, ask whether one already exists** (`consultar.py` and `MAPA_HERRAMIENTAS.md`).
+   Every tool carries its **card** in the docstring — `Contesta:` / `Toca:` / `Necesita:` (answers / touches /
+   needs), one line each — and `generar_mapa_herramientas.py` collects it, adds what the code shows (network,
+   remote shell, language model, database, which other tools it imports) and **flags a card that says
+   "read-only" when the code writes**. What gets set aside goes to a shelf without being renamed:
+   `_usados/AAAA-MM/` (one-off scripts), `datos/` (data) and `comun/` (shared code) — details in `AGENTS.md`.
+
 That last number is the one that orders everything else. **Before optimising anything, measure what
 fraction of the problem it is.** In the project this came from, startup cost 61,101 tokens and
 intuition said there was too much documentation — but once measured, **81% was environment

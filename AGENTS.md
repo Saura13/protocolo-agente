@@ -89,6 +89,12 @@ python herramientas/generar_mapa_codigo.py
 ⛔ **Nunca editarlo a mano**: un índice mantenido a mano acaba apuntando a líneas equivocadas, y un
 índice que miente es peor que ninguno.
 
+**Antes de crear una herramienta, preguntar** (`consultar.py` y `MAPA_HERRAMIENTAS.md`): si ya hay una que
+contesta, se usa o se amplía. La nueva lleva **ficha** en su docstring —`Contesta:` / `Toca:` / `Necesita:`, una
+línea cada una— y el mapa la comprueba contra el código. **Los nombres no se mueven** (están citados): lo que se
+aparta va a un estante — `_usados/AAAA-MM/` los guiones de un solo uso, `datos/` lo que leen y escriben, `comun/`
+el código que estaba copiado en varias, probado contra la copia que sustituye.
+
 **Qué abrir según la tarea:**
 
 | Si la tarea es… | Abrir | Nota |

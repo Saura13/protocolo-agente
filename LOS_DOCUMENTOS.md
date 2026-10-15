@@ -129,6 +129,13 @@ primera prisa, porque nadie recuerda qué se rompió sin ella.
 líneas equivocadas, porque nadie lo actualizaba al mover el código. El agente leía el rango que el
 índice decía, encontraba otra cosa, y trabajaba sobre suposiciones.
 
+**La ficha de cada herramienta** tampoco se escribe aparte: sale de su docstring y de su código. El docstring la
+precisa con tres líneas opcionales —`Contesta:` (si falta, su primera frase), `Toca:` (qué escribe, borra o envía,
+con sus nombres) y `Necesita:` (lo que tiene que haber para correrla)—; el mapa añade lo que el código enseña (red,
+consola remota, modelo de lenguaje, base de datos, otras herramientas que importa) y **avisa si la ficha dice que
+no toca nada y el código sí**. 🔑 *Una copia del mismo criterio en dos herramientas es un sitio donde puede
+quedarse atrás*: lo repetido va a `comun/`, y la diferencia que era de verdad entre copias pasa a ser un parámetro.
+
 > ⛔ **Editar un mapa a mano es reintroducir exactamente ese fallo.** Cada mapa lleva el aviso
 > escrito dentro de sí mismo, en la primera línea, porque el que lo va a editar a mano no va a
 > venir a leer este documento.

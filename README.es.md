@@ -84,6 +84,12 @@ python herramientas/generar_vias.py                 # genera la hoja de vías de
 
 Todo se configura en `protocolo.config.json` (`indice`, `vias`, `avisos`, techos en caracteres en `cierre`).
 
+8. **Antes de escribir una herramienta nueva, pregunta si ya existe** (`consultar.py` y `MAPA_HERRAMIENTAS.md`).
+   Cada herramienta lleva su **ficha** en el docstring —`Contesta:` / `Toca:` / `Necesita:`, una línea cada una— y
+   `generar_mapa_herramientas.py` la recoge, añade lo que el código enseña (red, consola remota, modelo de
+   lenguaje, base de datos, qué otras importa) y **avisa si la ficha dice «solo lee» y el código escribe**. Lo que
+   se aparta va a un estante sin renombrarlo: `_usados/AAAA-MM/`, `datos/` y `comun/` (detalle en `AGENTS.md`).
+
 Ese último número es el que ordena todo lo demás. **Antes de optimizar nada, mide qué fracción del
 problema es.** En el proyecto de origen, el arranque costaba 61.101 tokens y la intuición decía que
 sobraba documentación — pero al medirlo, **el 81% era configuración del entorno** y los documentos
