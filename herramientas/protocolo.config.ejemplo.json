@@ -28,6 +28,8 @@
       "docs/ESTADO_ACTUAL.md": 400
     },
     "_techos": "Un número es un techo de líneas; un diccionario puede llevar también caracteres. Un techo de líneas solo no para una línea de veinte mil caracteres.",
+    "rama_principal": "master",
+    "_rama_principal": "La rama a la que se juntan las demás (juntar_rama.py); el cierre avisa si la actual tiene commits que ella no tiene.",
     "diario": "docs/diario",
     "_diario": "Un fichero (docs/DIARIO.md) o una carpeta con un fichero por mes (AAAA-MM.md): la carpeta no crece sin techo. apuntar.py escribe en el del mes en curso.",
     "marcador_resultado": "### RESULTADO",
@@ -51,6 +53,9 @@
 
   "vias": { "fichas": "docs/vias", "salida": "docs/VIAS_DE_TRABAJO.md", "techo_ficha": 2000 },
   "_vias": "La hoja de vías se genera de una ficha por vía (generar_vias.py) y el cierre comprueba que esté al día. Bórralo si llevas la hoja a mano.",
+
+  "generados": { "docs/VIAS_DE_TRABAJO.md": "herramientas/generar_vias.py", "docs/MAPA_CODIGO.md": "herramientas/generar_mapa_codigo.py" },
+  "_generados": "Los documentos que produce un programa. Si chocan al juntar dos ramas, juntar_rama.py no elige un lado: los vuelve a generar con su programa.",
 
   "avisos": "docs/AVISOS_ENTRE_VIAS.md",
   "_avisos": "Lo que una vía decide y cambia a otra: apuntar.py aviso lo deja; consultar.py --avisos X lo enseña al abrir X.",

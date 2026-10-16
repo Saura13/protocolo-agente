@@ -17,7 +17,7 @@ Qué comprueba, todo mecánicamente:
      aquello terminó o se cortó a la mitad.
   3. **Los mapas no son más viejos que el código** que dicen mapear. Un mapa desactualizado
      apunta a líneas equivocadas, y eso es peor que no tenerlo.
-  4. **No quedan cambios sin registrar** en git.
+  4. **No quedan cambios sin registrar** en git, y la rama no se queda sin juntar con la principal (aviso).
 
 Lo que NO comprueba, y hay que mirar a mano: que el estado diga cuál es el siguiente paso, que el
 registro de bugs refleje la realidad, y que el mensaje del commit explique el porqué. Un programa
@@ -212,6 +212,44 @@ def comprobar_git(raiz_p):
     return fallos
 
 
+def comprobar_rama(raiz_p, cierre):
+    u"""La rama de trabajo no se queda con commits que la principal no tiene.
+
+    Una rama cerrada y sin juntar es trabajo que la siguiente sesión no ve: arranca de la
+    principal y lo rehace. Solo avisa (no es un fallo: se puede comprobar antes del commit).
+    """
+    principal = cierre.get("rama_principal", "master")
+    def git(*args):
+        return subprocess.run(["git"] + list(args), cwd=raiz_p, capture_output=True, text=True)
+    try:
+        actual = git("branch", "--show-current")
+        if actual.returncode != 0:
+            print(AVISO, u"esto no es un repositorio git — no se comprueba la rama")
+            return []
+        rama = actual.stdout.strip()
+        if not rama:
+            print(AVISO, u"HEAD suelto, sin rama — no se comprueba si está juntada con «%s»" % principal)
+            return []
+        if rama == principal:
+            print(OK, u"estás en «%s», la rama principal" % principal)
+            return []
+        cuenta = git("rev-list", "--count", "%s..HEAD" % principal)
+    except OSError:
+        print(AVISO, u"git no está disponible — no se comprueba la rama")
+        return []
+    if cuenta.returncode != 0:
+        print(AVISO, u"no existe la rama principal «%s» (se declara en «cierre.rama_principal»)" % principal)
+        return []
+    n = int(cuenta.stdout.strip() or 0)
+    if n:
+        print(AVISO, u"«%s» tiene %d commit(s) que «%s» no tiene — sin juntar, la próxima sesión no los ve" % (rama, n, principal))
+        print(u"           tras el commit: python herramientas/juntar_rama.py --juntar (suma diario y avisos,"
+              u" regenera lo generado y frena si algo se perdería)")
+    else:
+        print(OK, u"«%s» ya está dentro de «%s»" % (rama, principal))
+    return []
+
+
 def main():
     raiz_p, cfg = cargar(os.getcwd())
     raiz(raiz_p, u"la raíz del proyecto")
@@ -226,8 +264,9 @@ def main():
     fallos += comprobar_diario(raiz_p, cierre)
     print(u"\n3. Los mapas están al día")
     fallos += comprobar_mapas(raiz_p, cfg, cierre)
-    print(u"\n4. Todo registrado en git")
+    print(u"\n4. Todo registrado en git y juntado con la principal")
     fallos += comprobar_git(raiz_p)
+    fallos += comprobar_rama(raiz_p, cierre)
 
     print(u"\n" + u"-" * 70)
     if fallos:

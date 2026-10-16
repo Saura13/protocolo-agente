@@ -1,0 +1,7 @@
+# Cópialo a la raíz de tu proyecto como .gitattributes (ajusta las rutas a las de protocolo.config.json).
+#
+# Los ficheros donde solo se AÑADE (cada sesión escribe su entrada al final) se juntan sumando las dos
+# partes: dos sesiones que apuntan el mismo día no chocan, y no se pierde ninguna. Es la regla de git;
+# juntar_rama.py solo comprueba que la suma no deje una entrada repetida ni un aviso pendiente y visto.
+docs/diario/*.md          merge=union
+docs/AVISOS_ENTRE_VIAS.md merge=union

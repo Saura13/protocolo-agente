@@ -13,6 +13,10 @@ terminal por el camino.
 Lo que resuelve:
 - **La letra del día la da el diario, no el agente.** Dos sesiones que abren a la vez ya no
   eligen las dos la «N»: bajo el cerrojo se mira cuál es la siguiente libre y se reserva.
+  🔑 *Y el diario son todas sus copias*: cada sesión trabaja en su carpeta (worktree) y solo ve
+  la suya, así que el 16/10 dos sesiones cogieron las dos la «B». La letra se elige mirando el
+  diario de **todas** las carpetas y el de la rama principal, bajo un cerrojo que vive en el
+  almacén común de git, el único sitio que todas ven.
 - **El resultado va a SU entrada**, no al final del fichero: si otra sesión apuntó después, el
   resultado no queda colgando debajo de la entrada ajena.
 - **Nadie escribe a medias**: el fichero se escribe entero a un temporal y luego se cambia.
@@ -26,6 +30,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import diario                               # noqa: E402
+from comun import git as g                  # noqa: E402
 from config import cargar                   # noqa: E402
 from terreno import SinTerrenoQueMedir      # noqa: E402
 
@@ -73,14 +78,48 @@ def letras_del_dia(textos, fecha):
     return usadas
 
 
+def copias_ajenas(raiz, cfg, ruta):
+    u"""El mismo fichero del diario en las OTRAS carpetas de trabajo y en la rama principal."""
+    rel = os.path.relpath(ruta, raiz)
+    textos = []
+    for carpeta, _ in g.carpetas(raiz):
+        if os.path.normcase(carpeta) == os.path.normcase(os.path.normpath(raiz)):
+            continue
+        otra = os.path.join(carpeta, rel)
+        if os.path.isfile(otra):
+            textos.append(diario.leer(otra)[0])
+    principal = cfg.get("cierre", {}).get("rama_principal", "master")
+    guardado = g.contenido_en(raiz, principal, rel)
+    if guardado:
+        textos.append(guardado)
+    return textos
+
+
+class CerrojoComun(object):
+    u"""El cerrojo del diario para todas las carpetas a la vez (en el almacén común de git)."""
+
+    def __init__(self, raiz):
+        comun = g.almacen_comun(raiz)
+        self.c = diario.Cerrojo(os.path.join(comun, "protocolo-diario")) if comun else None
+
+    def __enter__(self):
+        if self.c:
+            self.c.__enter__()
+        return self
+
+    def __exit__(self, *exc):
+        if self.c:
+            self.c.__exit__(*exc)
+
+
 def entrada(raiz, cfg, a):
     fmt = diario.formato(cfg)
     ruta = diario.actual(raiz, cfg, crear=True)
     cuerpo = leer_texto(a)
     fecha = hoy()
-    with diario.Cerrojo(ruta):
+    with CerrojoComun(raiz), diario.Cerrojo(ruta):
         texto, salto = diario.leer(ruta)
-        usadas = letras_del_dia([texto], fecha)
+        usadas = letras_del_dia([texto] + copias_ajenas(raiz, cfg, ruta), fecha)
         letra = next(l for l in letras() if l not in usadas)
         titulo = a.titulo + (u" (%s)" % a.modelo if a.modelo else u"")
         cabecera = fmt["cabecera"].format(fecha=fecha, letra=letra, titulo=titulo)

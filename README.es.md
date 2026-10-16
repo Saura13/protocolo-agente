@@ -4,7 +4,7 @@
 
 *[🇬🇧 Read it in English](README.md)*
 
-No es una librería ni una herramienta. Son **seis documentos y nueve programas** que resuelven un
+No es una librería ni una herramienta. Son **seis documentos y diez programas** que resuelven un
 problema concreto: cuando un proyecto dura meses, cada sesión con el agente empieza a ciegas. Se le
 vuelve a explicar todo, se le paga el contexto entero, y aun así toma decisiones que contradicen las
 de la semana pasada.
@@ -41,7 +41,7 @@ De ahí salen las tres decisiones que gobiernan todo lo demás:
 | **[`PROTOCOLO_SESION.md`](PROTOCOLO_SESION.md)** | Cómo se abre, se lleva y se cierra una sesión. La lista de comprobación antes de cerrar |
 | **[`LOS_DOCUMENTOS.md`](LOS_DOCUMENTOS.md)** | Qué función fija tiene cada documento, su techo de líneas y qué NO va en él |
 | **[`CRITERIOS.md`](CRITERIOS.md)** | Las lecciones que sobreviven al proyecto. Sobre todo: cómo se mide algo sin engañarse |
-| **[`herramientas/`](herramientas/)** | Los programas: tres generan mapas, uno mide lo que cuesta cada sesión, otro **comprueba que se puede cerrar** y cuatro **dejan preguntar a los documentos en vez de leerlos enteros** (`indice.py`, `consultar.py`, `apuntar.py`, `generar_vias.py`) |
+| **[`herramientas/`](herramientas/)** | Los programas: tres generan mapas, uno mide lo que cuesta cada sesión, otro **comprueba que se puede cerrar**, cuatro **dejan preguntar a los documentos en vez de leerlos enteros** (`indice.py`, `consultar.py`, `apuntar.py`, `generar_vias.py`) y uno **junta la rama de una sesión sin perder nada** (`juntar_rama.py`) |
 | **[`plantillas/`](plantillas/)** | Los documentos vacíos, listos para copiar |
 
 ---
@@ -80,7 +80,14 @@ python herramientas/indice.py                       # genera el índice SQLite (
 python herramientas/consultar.py "qué toca a X"     # diez trozos con fichero:línea
 python herramientas/apuntar.py                      # escribe diario y avisos, bajo cerrojo
 python herramientas/generar_vias.py                 # genera la hoja de vías desde una ficha por vía
+python herramientas/juntar_rama.py --juntar         # junta la rama de esta sesión con la principal
 ```
+
+**Varios agentes a la vez**, cada uno en su carpeta (un *worktree* de git): `apuntar.py` elige la letra del día mirando
+el diario de **todas** las carpetas y el de la rama principal, bajo un cerrojo en el almacén común de git; el diario y
+los avisos se juntan sumando las dos partes (`plantillas/gitattributes`, `merge=union`); y `juntar_rama.py` regenera
+lo generado y frena **sin tocar nada** si al juntar se fuera a perder algo. `probar_juntar_rama.py` repite los siete
+casos en un repositorio de usar y tirar.
 
 Todo se configura en `protocolo.config.json` (`indice`, `vias`, `avisos`, techos en caracteres en `cierre`).
 

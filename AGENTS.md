@@ -129,7 +129,8 @@ python herramientas/comprobar_cierre.py
 3. ¿`REGISTRO_BUGS.md` refleja el nuevo estado del bug **que se traía**?
 4. ¿Y **lo roto que apareció de paso**, anotado ahí como 🔴 sin diagnosticar?
 5. ¿**Mapa de código regenerado**, si se movió o añadió alguna función?
-6. ¿Commit hecho, con mensaje que explique **el porqué**?
+6. ¿Commit hecho, con mensaje que explique **el porqué**, y **la rama juntada** con `juntar_rama.py --juntar`? Nunca
+   a mano: suma diario y avisos, regenera lo generado y frena —sin tocar nada— si algo se fuera a perder.
 7. ¿Verificado que no se rompió nada?
 
 Si algo de esto falta, **no se cierra la sesión todavía**.

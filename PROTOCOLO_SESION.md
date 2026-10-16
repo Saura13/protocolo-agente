@@ -146,13 +146,15 @@ agotando** — el peor momento posible para acordarse de nada.
 
 **Qué comprueba el programa**: techos de líneas de los documentos de arranque · que la última
 entrada del diario tenga `### RESULTADO` · que ningún mapa sea más viejo que el código que mapea ·
-que no queden cambios sin registrar en git · y, si llevas la hoja de vías generada, que esté al día. Sale con
+que no queden cambios sin registrar en git, y que la rama no se quede sin juntar (aviso) · y, si llevas la hoja de vías generada, que esté al día. Sale con
 código 1 si algo falta.
 
 **Y los programas que ahorran leer**: `apuntar.py` escribe la entrada del diario y los avisos entre vías con su
 formato y bajo cerrojo (así dos sesiones a la vez no se pisan, y la fecha no se la inventa el agente);
 `consultar.py` contesta «qué toca a X» desde el índice que genera `indice.py`; `generar_vias.py` arma
-`VIAS_DE_TRABAJO.md` a partir de una ficha por vía. Todo se declara en `protocolo.config.json`.
+`VIAS_DE_TRABAJO.md` a partir de una ficha por vía; `juntar_rama.py --juntar` lleva la rama de la sesión a la
+principal sin perder nada —el diario y los avisos se suman (`plantillas/gitattributes`), lo generado se regenera y
+cualquier otro choque frena sin tocar nada—. Todo se declara en `protocolo.config.json`.
 
 **Qué no puede comprobar, y por eso lo recuerda al final**: si el siguiente paso está de verdad
 escrito, si el registro de bugs refleja la realidad de hoy, si el mensaje del commit explica el

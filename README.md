@@ -6,7 +6,7 @@ sessions.**
 *[🇪🇸 Léelo en castellano](README.es.md) — the protocol documents themselves are in Spanish.
 See [Language](#language) below.*
 
-It is not a library and not a tool. It is **six documents and nine programs** that solve one
+It is not a library and not a tool. It is **six documents and ten programs** that solve one
 concrete problem: when a project runs for months, every session starts blind. You explain
 everything again, you pay for the whole context, and the agent still makes decisions that
 contradict last week's.
@@ -43,7 +43,7 @@ Three decisions follow from that, and they govern everything else:
 | **[`PROTOCOLO_SESION.md`](PROTOCOLO_SESION.md)** | How a session is opened, run and closed. The checklist before closing |
 | **[`LOS_DOCUMENTOS.md`](LOS_DOCUMENTOS.md)** | The fixed job of each document, its line ceiling, and what does *not* go in it |
 | **[`CRITERIOS.md`](CRITERIOS.md)** | The lessons that outlive the project. Above all: how to measure something without fooling yourself |
-| **[`herramientas/`](herramientas/)** | The programs: three generate maps, one measures what a session costs, one **checks that you are allowed to close**, and four that **let you ask the documents instead of reading them** (`indice.py`, `consultar.py`, `apuntar.py`, `generar_vias.py`) |
+| **[`herramientas/`](herramientas/)** | The programs: three generate maps, one measures what a session costs, one **checks that you are allowed to close**, four that **let you ask the documents instead of reading them** (`indice.py`, `consultar.py`, `apuntar.py`, `generar_vias.py`), and one that **merges a session's branch without losing anything** (`juntar_rama.py`) |
 | **[`plantillas/`](plantillas/)** | The empty documents, ready to copy |
 
 ---
@@ -82,7 +82,14 @@ python herramientas/indice.py                       # generates the SQLite index
 python herramientas/consultar.py "what touches X"   # ten chunks with file:line
 python herramientas/apuntar.py                      # writes diary entries and notices, under lock
 python herramientas/generar_vias.py                 # builds the tracks sheet from one card per track
+python herramientas/juntar_rama.py --juntar         # merges this session's branch into the main one
 ```
+
+**Several agents at once**, each in its own folder (a git *worktree*): `apuntar.py` picks the day's letter looking at
+the diary of **every** folder and of the main branch, under a lock in git's shared store; the diary and the notices
+merge by adding both sides (`plantillas/gitattributes`, `merge=union`); and `juntar_rama.py` regenerates generated
+documents and stops **without touching anything** if a merge would lose work. `probar_juntar_rama.py` replays the
+seven cases in a throwaway repository.
 
 Everything is configured in `protocolo.config.json` (`indice`, `vias`, `avisos`, character ceilings in `cierre`).
 
