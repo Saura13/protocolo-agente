@@ -151,6 +151,12 @@ está explicado en **`LA_BIBLIOTECA.md`**.
 
 Se regeneran **siempre que se muevan o añadan funciones**, y desde luego antes de cerrar sesión.
 
+**Cada mapa declara qué código mapea** (`cierre.mapas` en `protocolo.config.json`), y el cierre lo
+compara **solo con ese código**. Antes había una única fecha de código para todos, y un mapa de
+herramientas o uno del servidor solo se podían vigilar dando rojos falsos — así que no se vigilaban, y
+uno de ellos llevó días desfasado sin que nadie lo viera. 🔑 *Antes que vigilar de más, vigilar menos y
+decirlo*: el mapa cuyo código no está en el repositorio se declara así, y el cierre avisa de que no lo mira.
+
 ---
 
 ## Cómo se sabe que esto se está pudriendo

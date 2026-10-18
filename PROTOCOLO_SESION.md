@@ -150,8 +150,8 @@ agotando** — el peor momento posible para acordarse de nada.
 | **La siguiente sesión, preparada** | Una receta cerrada, lista para abrir (§10) | 👤 a mano |
 
 **Qué comprueba el programa**: techos de líneas (y de caracteres) de los documentos de arranque · que
-la última entrada del diario tenga `### RESULTADO` · que ningún mapa sea más viejo que el código que
-mapea · si llevas la hoja de vías generada, que esté al día · que cada «siguiente» diga con qué modelo
+la última entrada del diario tenga `### RESULTADO` · que ningún mapa sea más viejo que **el código que
+él declara mapear** (con fechas de git, no de disco) · si llevas la hoja de vías generada, que esté al día · que cada «siguiente» diga con qué modelo
 se abre · que no queden cambios sin registrar en git, y que la rama no se quede sin juntar (aviso).
 Sale con código 1 si algo falta.
 

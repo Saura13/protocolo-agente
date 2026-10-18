@@ -34,7 +34,13 @@
     "_diario": "Un fichero (docs/DIARIO.md) o una carpeta con un fichero por mes (AAAA-MM.md): la carpeta no crece sin techo. apuntar.py escribe en el del mes en curso.",
     "marcador_resultado": "### RESULTADO",
     "marcador_entrada": "## ",
-    "mapas": ["docs/MAPA_CODIGO.md", "docs/MAPA_HERRAMIENTAS.md"],
+    "mapas": [
+      "docs/MAPA_CODIGO.md",
+      { "mapa": "docs/MAPA_HERRAMIENTAS.md", "codigo": ["herramientas"], "extensiones": [".py"], "excluir": ["__pycache__", "datos", "_*", ".*"] },
+      { "mapa": "docs/MAPA_SERVIDOR.md", "codigo": ["*/DESPLEGADO.json"], "extensiones": [".py"] },
+      { "mapa": "docs/MAPA_OTRO.md", "codigo": [], "por_que": "su código vive solo en otra máquina y no hay copia aquí" }
+    ],
+    "_mapas": "Cada mapa contra EL código que mapea. Un texto mapea las «zonas». Un diccionario dice el suyo: «codigo» son patrones de carpeta (src/api, docs/via_*) o un fichero que marca su carpeta (*/DESPLEGADO.json: cada carpeta que lo tiene, también la que nazca mañana). «excluir» vale por debajo de cada carpeta: con * es un patrón; sin él, basta con que el nombre lo contenga. Con «codigo» vacío y un «por_que», el mapa no se vigila, y el cierre lo dice. Las fechas salen de git: las de disco mienten en una carpeta de trabajo recién creada.",
     "siguiente": { "documento": "docs/VIAS_DE_TRABAJO.md", "marca": "⏭️", "palabra": "siguiente", "etiquetas": ["[Opus]", "[Sonnet]"] },
     "_siguiente": "Cada línea que anuncia un siguiente paso (lleva la marca y la palabra) dice con qué modelo se abre la sesión que lo haga. Las etiquetas son las tuyas: un modelo que juzga y otro que ejecuta. Bórralo si trabajas con un solo modelo."
   },

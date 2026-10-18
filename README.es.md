@@ -4,7 +4,7 @@
 
 *[🇬🇧 Read it in English](README.md)*
 
-No es una librería ni una herramienta. Son **seis documentos y once programas** que resuelven un
+No es una librería ni una herramienta. Son **seis documentos y doce programas** que resuelven un
 problema concreto: cuando un proyecto dura meses, cada sesión con el agente empieza a ciegas. Se le
 vuelve a explicar todo, se le paga el contexto entero, y aun así toma decisiones que contradicen las
 de la semana pasada.
@@ -116,6 +116,7 @@ todo sale de `protocolo.config.json`. Cada uno lleva su **ficha** (`Contesta:` /
 | `generar_mapa_servidor.py` | Lo mismo, para el código que corre en otra máquina | Escribe el mapa; allí no toca nada |
 | `juntar_rama.py` | ¿Se puede llevar esta rama a la principal sin perder nada? Con `--juntar`, la lleva | Sin opciones, solo lee |
 | `probar_juntar_rama.py` | ¿Varias sesiones pueden apuntar y juntar a la vez sin perder nada? (siete casos) | Solo en una carpeta temporal |
+| `probar_cierre_mapas.py` | ¿Se vigila cada mapa contra *su* código, sin que le engañen las fechas en disco? (cinco casos) | Solo en una carpeta temporal |
 
 `config.py`, `diario.py`, `terreno.py` y `comun/` son las piezas que los demás comparten.
 
@@ -193,7 +194,7 @@ propios eran el 19%. Podar documentos habría atacado un quinto del problema.
 |:---|:---|:---|
 | **0.1** | 23-24/08/2026 | El mapa de arranque, los documentos con función fija y techo, los mapas generados, el cierre comprobado, la medida de la cuota |
 | **0.2** | 15-16/10/2026 | El índice y `consultar.py`; `apuntar.py`; la hoja de vías generada; los avisos entre vías; la ficha de cada herramienta; varias sesiones a la vez (`juntar_rama.py`) |
-| **0.3** | 18/10/2026 | `LA_BIBLIOTECA.md` (las herramientas como biblioteca, el código que corre fuera, las guías por operación); el modelo por paso, comprobado en el cierre; las reglas de varias sesiones vivas; la siguiente sesión preparada; cada herramienta publicada con su ficha; este esquema |
+| **0.3** | 18/10/2026 | `LA_BIBLIOTECA.md` (las herramientas como biblioteca, el código que corre fuera, las guías por operación); el modelo por paso, comprobado en el cierre; las reglas de varias sesiones vivas; la siguiente sesión preparada; cada herramienta publicada con su ficha; **cada mapa declara su código** y el cierre lo vigila con fechas de git (`probar_cierre_mapas.py`); este esquema |
 
 ---
 

@@ -19,8 +19,10 @@ Qué comprueba, todo mecánicamente:
      ANTES de cerrar: cada línea de más se paga en todas las sesiones que queden.
   2. **El diario tiene RESULTADO** en su última entrada. Sin él, la siguiente sesión no sabe si
      aquello terminó o se cortó a la mitad.
-  3. **Los mapas no son más viejos que el código** que dicen mapear. Un mapa desactualizado
-     apunta a líneas equivocadas, y eso es peor que no tenerlo.
+  3. **Cada mapa no es más viejo que SU código** —el que declara en «cierre.mapas»—. Un mapa
+     desactualizado apunta a líneas equivocadas, y eso es peor que no tenerlo. Las fechas salen de
+     git (las de disco mienten en una carpeta de trabajo recién creada); un mapa cuyo código vive en
+     otra máquina se declara así y no se vigila, pero se dice. Prueba: `probar_cierre_mapas.py`.
   4. **Cada «siguiente» dice con qué modelo se abre** (p. ej. `[Opus]` / `[Sonnet]`), si se declara
      «cierre.siguiente». Decirlo al cerrar avisa al usuario ANTES de abrir la próxima sesión; al
      arrancar ya llega tarde, porque la sesión ya está abierta con un modelo.
@@ -35,6 +37,8 @@ no puede juzgar eso — pero sí puede recordarlo, y lo hace al final.
 Uso:
     python herramientas/comprobar_cierre.py
 """
+import fnmatch
+import glob
 import os
 import subprocess
 import sys
@@ -51,11 +55,16 @@ def contar_lineas(ruta):
         return sum(1 for _ in fh)
 
 
+def _excluida(nombre, excluir):
+    u"""Un patrón con `*` o `?` es un patrón (`_*`); sin ellos, basta con que el nombre lo contenga."""
+    return any(fnmatch.fnmatch(nombre, x) if any(c in x for c in "*?[") else x in nombre for x in excluir)
+
+
 def mas_reciente(carpeta, extensiones, excluir):
     """La fecha del fichero de código modificado más recientemente bajo `carpeta`."""
     ultima = 0
     for base, dirs, ficheros in os.walk(carpeta):
-        dirs[:] = [d for d in dirs if not any(x in d for x in excluir)]
+        dirs[:] = [d for d in dirs if not _excluida(d, excluir)]
         for f in ficheros:
             if f.endswith(tuple(extensiones)):
                 try:
@@ -63,6 +72,81 @@ def mas_reciente(carpeta, extensiones, excluir):
                 except OSError:
                     pass
     return ultima
+
+
+def _git(raiz_p, *args):
+    try:
+        r = subprocess.run(["git", "-C", raiz_p] + list(args), capture_output=True, text=True,
+                           encoding="utf-8", errors="replace")
+    except OSError:
+        return None
+    return r.stdout if r.returncode == 0 else None
+
+
+def fecha_de(raiz_p, rutas_rel, extensiones, excluir):
+    u"""Cuándo cambió por última vez lo que hay bajo `rutas_rel`, según git — o None si no hay git.
+
+    🔑 **La fecha del fichero en disco miente en una carpeta de trabajo nueva**: al crearla, git escribe
+    todos los ficheros a la vez, y un mapa sale «más viejo» o «al día» por el orden en que se
+    escribieron, no por lo que cambió. Git sí lo sabe: lo guardado cuenta por **su último commit**, y
+    solo lo que aún no está guardado (cambiado o nuevo) cuenta por su fecha en disco.
+    """
+    pathspec = []
+    # Las exclusiones valen POR DEBAJO de cada carpeta, no para ella misma (como al recorrerla):
+    # `_*` aparta `_usados/` dentro de `herramientas/`; a una carpeta `_herramientas/` no la aparta entera.
+    for r in rutas_rel:
+        r = r.replace(os.sep, "/").rstrip("/")
+        pathspec += [":(glob)%s/**/*%s" % (r, e) for e in extensiones] if extensiones else [r]
+        pathspec += [":(exclude,glob)%s/**/%s/**" % (r, x if any(c in x for c in "*?[") else "*%s*" % x)
+                     for x in excluir]
+    hecho = _git(raiz_p, "log", "-1", "--format=%ct", "--", *pathspec)
+    sucio = _git(raiz_p, "status", "--porcelain", "--untracked-files=all", "--", *pathspec)
+    if hecho is None or sucio is None:
+        return None
+    fecha = float(hecho.strip() or 0)
+    for linea in sucio.splitlines():
+        rel = linea[3:].split(" -> ")[-1].strip().strip('"')
+        try:
+            fecha = max(fecha, os.path.getmtime(os.path.join(raiz_p, rel)))
+        except OSError:
+            pass  # borrado: el commit que lo borre ya pondrá su fecha
+    return fecha
+
+
+def carpetas_de_codigo(raiz_p, patrones):
+    u"""Las carpetas que nombra cada patrón: (patrón, [carpetas]).
+
+    Un patrón puede ser una carpeta (`src/api`), varias (`docs/via_*`) o un **fichero que marca su
+    carpeta** (`*/*/DESPLEGADO.json`: cada carpeta que lo contiene). Lo último es un criterio, no
+    una lista: la carpeta que nazca mañana con esa marca queda vigilada sola.
+    """
+    salida = []
+    for patron in patrones:
+        vistas = sorted(glob.glob(os.path.join(raiz_p, patron)))
+        carpetas = sorted({v if os.path.isdir(v) else os.path.dirname(v) for v in vistas})
+        salida.append((patron, carpetas))
+    return salida
+
+
+def zonas_de_cada_mapa(cfg, cierre):
+    u"""Cada mapa con su código: [(mapa, patrones o None, extensiones, excluir, por_qué)].
+
+    Un mapa declarado como texto mapea las «zonas» (el comportamiento de siempre). Uno declarado
+    como diccionario dice su propio código: `{"mapa": …, "codigo": [patrones], "extensiones": …,
+    "excluir": …}`. Con `"codigo": []` y un `"por_que"`, el mapa se declara **sin código en este
+    repositorio** (vive en otra máquina): no se vigila, y se dice — 🔑 *antes que vigilar de más,
+    vigilar menos y decirlo*.
+    """
+    zonas = [z["ruta"] for z in cfg.get("zonas", [])]
+    ext, exc = cfg.get("extensiones", [".py"]), cfg.get("excluir", [])
+    salida = []
+    for m in cierre.get("mapas", []):
+        if isinstance(m, str):
+            salida.append((m, zonas, ext, exc, u""))
+        else:
+            salida.append((m["mapa"], m.get("codigo", zonas), m.get("extensiones", ext),
+                           m.get("excluir", exc), m.get("por_que", u"")))
+    return salida
 
 
 def comprobar_techos(raiz_p, cierre):
@@ -145,31 +229,45 @@ def comprobar_diario(raiz_p, cierre):
 
 
 def comprobar_mapas(raiz_p, cfg, cierre):
-    """Un mapa más viejo que el código que mapea apunta a líneas equivocadas."""
+    """Un mapa más viejo que el código QUE ÉL MAPEA apunta a líneas equivocadas."""
     fallos = []
-    mapas = cierre.get("mapas", [])
+    mapas = zonas_de_cada_mapa(cfg, cierre)
     if not mapas:
         print(AVISO, u"no hay mapas declarados en «cierre.mapas» — no se comprueba")
         return fallos
 
-    zonas = [z["ruta"] for z in cfg.get("zonas", [])]
-    if not zonas:
-        print(AVISO, u"no hay zonas de código declaradas — no se puede fechar el código")
-        return fallos
-    codigo = max(mas_reciente(os.path.join(raiz_p, z), cfg["extensiones"], cfg["excluir"])
-                 for z in zonas if os.path.isdir(os.path.join(raiz_p, z)))
-
-    for rel in mapas:
+    for rel, patrones, ext, exc, por_que in mapas:
         ruta = os.path.join(raiz_p, rel)
         if not os.path.isfile(ruta):
             fallos.append(u"falta el mapa %s: nunca se generó" % rel)
             print(FALLO, u"%s — no existe: generarlo" % rel)
             continue
-        if os.path.getmtime(ruta) < codigo:
-            fallos.append(u"%s es más viejo que el código: regenerarlo" % rel)
-            print(FALLO, u"%s — más viejo que el código: REGENERAR" % rel)
+        if not patrones:
+            print(AVISO, u"%s — no se vigila: %s" % (rel, por_que or u"no declara qué código mapea"))
+            continue
+        # 🔑 Un patrón que no encuentra nada no es «código sin cambios»: es una zona que no existe,
+        # y un mapa vigilado contra la nada sale siempre al día (el cero que se lee como limpio).
+        encontradas = carpetas_de_codigo(raiz_p, patrones)
+        vacios = [p for p, carpetas in encontradas if not carpetas]
+        if vacios:
+            fallos.append(u"%s declara código que no existe: %s" % (rel, u", ".join(vacios)))
+            print(FALLO, u"%s — su código no se encuentra: %s" % (rel, u", ".join(vacios)))
+            continue
+        carpetas = [c for _, cs in encontradas for c in cs]
+        relativas = [os.path.relpath(c, raiz_p) for c in carpetas]
+        codigo = fecha_de(raiz_p, relativas, ext, exc)
+        if codigo is None:  # sin git: lo de siempre, la fecha en disco
+            codigo = max(mas_reciente(c, ext, exc) for c in carpetas)
+            del_mapa = os.path.getmtime(ruta)
         else:
-            print(OK, u"%s — al día" % rel)
+            sucio = _git(raiz_p, "status", "--porcelain", "--", rel)
+            hecho = _git(raiz_p, "log", "-1", "--format=%ct", "--", rel)
+            del_mapa = os.path.getmtime(ruta) if (sucio or "").strip() else float((hecho or "0").strip() or 0)
+        if del_mapa < codigo:
+            fallos.append(u"%s es más viejo que el código: regenerarlo" % rel)
+            print(FALLO, u"%s — más viejo que su código (%d carpetas): REGENERAR" % (rel, len(carpetas)))
+        else:
+            print(OK, u"%s — al día (%d carpetas)" % (rel, len(carpetas)))
     return fallos
 
 

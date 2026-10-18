@@ -6,7 +6,7 @@ sessions.**
 *[🇪🇸 Léelo en castellano](README.es.md) — the protocol documents themselves are in Spanish.
 See [Language](#language) below.*
 
-It is not a library and not a tool. It is **six documents and eleven programs** that solve one
+It is not a library and not a tool. It is **six documents and twelve programs** that solve one
 concrete problem: when a project runs for months, every session starts blind. You explain
 everything again, you pay for the whole context, and the agent still makes decisions that
 contradict last week's.
@@ -118,6 +118,7 @@ comes from `protocolo.config.json`. Each one carries its **card** (`Contesta:` /
 | `generar_mapa_servidor.py` | The same, for code that runs on another machine | Writes the map; touches nothing there |
 | `juntar_rama.py` | Can this branch go into the main one without losing anything? With `--juntar`, it does it | Read-only without options |
 | `probar_juntar_rama.py` | Can several sessions write and merge at once without losing anything? (seven cases) | Only in a temporary folder |
+| `probar_cierre_mapas.py` | Is each map checked against *its own* code, without being fooled by file dates? (five cases) | Only in a temporary folder |
 
 `config.py`, `diario.py`, `terreno.py` and `comun/` are the pieces the others share.
 
@@ -196,7 +197,7 @@ fifth of the problem.
 |:---|:---|:---|
 | **0.1** | 2026-08-23/24 | The startup map, documents with a fixed job and a ceiling, generated maps, checked closing, quota measurement |
 | **0.2** | 2026-10-15/16 | The index and `consultar.py`; `apuntar.py`; the generated tracks sheet; notices between tracks; the tool card; several sessions at once (`juntar_rama.py`) |
-| **0.3** | 2026-10-18 | `LA_BIBLIOTECA.md` (tools as a library, code that runs elsewhere, one guide per operation); a model per step, checked on closing; rules for several live sessions; the next session left ready; every published tool with its card; these diagrams |
+| **0.3** | 2026-10-18 | `LA_BIBLIOTECA.md` (tools as a library, code that runs elsewhere, one guide per operation); a model per step, checked on closing; rules for several live sessions; the next session left ready; every published tool with its card; **each map declares its own code** and closing checks it with git dates (`probar_cierre_mapas.py`); these diagrams |
 
 ---
 
