@@ -2,6 +2,10 @@
 # -*- coding: utf-8 -*-
 """Qué costó una sesión de Claude Code, turno a turno — medido, no estimado.
 
+Contesta: ¿cuánto pesó el arranque de una sesión y dónde se fue su cuota?
+Toca: nada (solo lee).
+Necesita: el registro de la sesión (~/.claude/projects/<proyecto>/<sesión>.jsonl).
+
 El transcript de cada sesión guarda el gasto real de cada turno. Esta herramienta lo lee y
 contesta dos preguntas que antes se respondían a ojo:
 

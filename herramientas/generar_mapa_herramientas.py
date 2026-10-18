@@ -3,6 +3,10 @@
 """
 Genera MAPA_HERRAMIENTAS.md: qué pregunta contesta cada herramienta y si toca algo al correrla.
 
+Contesta: ¿qué herramienta contesta mi pregunta, y si solo mira o cambia algo?
+Toca: escribe MAPA_HERRAMIENTAS.md en la carpeta «salida».
+Necesita: protocolo.config.json con «herramientas».
+
 Por qué existe: una carpeta con ochenta scripts es inútil sin un índice. El agente —y el humano—
 acaban abriendo cinco para encontrar el que servía, o peor: escribiendo uno nuevo que duplica algo
 que ya estaba.

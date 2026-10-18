@@ -21,6 +21,9 @@ nuevo; es que uno de los dos se ha salido de su función.
 | `CRITERIOS.md` | **Qué no se vuelve a razonar** | — | Cuando reaparece la duda |
 | `MAPA_CODIGO.md` | **Dónde está cada cosa** | — | Se consulta, no se lee |
 | `MAPA_HERRAMIENTAS.md` | **Qué herramienta contesta qué** | — | Se consulta, no se lee |
+| `AVISOS_ENTRE_VIAS.md` | **Qué decidió una vía que cambia a otra** | — | Solo los de tu vía, al abrirla |
+| `ENLACE_X_Y.md` | **Cómo encajan dos vías que dependen una de otra** | corto | Entero, al abrir cualquiera de las dos |
+| `GUIA_<OPERACIÓN>.md` | **Cómo se hace algo que se repite** | — | Cuando toca hacerlo |
 
 ---
 
@@ -55,8 +58,11 @@ Estructura por frente:
 
 **En qué punto está**: <dos o tres líneas>.
 
-**⏭️ Siguiente paso**: <uno solo, concreto>.
+**⏭️ Siguiente paso** [Opus]: <uno solo, concreto>.
 ```
+
+La etiqueta **`[Opus]` / `[Sonnet]`** (o las tuyas) dice con qué modelo se abre la sesión que lo haga;
+`comprobar_cierre.py` la exige si declaras `cierre.siguiente`. El porqué, en `PROTOCOLO_SESION.md` §8.
 
 Ese **«documento que manda»** resuelve por adelantado la discusión de qué fuente gana cuando dos se
 contradicen. Sin esa línea, el agente elige la que leyó última.
@@ -135,6 +141,9 @@ con sus nombres) y `Necesita:` (lo que tiene que haber para correrla)—; el map
 consola remota, modelo de lenguaje, base de datos, otras herramientas que importa) y **avisa si la ficha dice que
 no toca nada y el código sí**. 🔑 *Una copia del mismo criterio en dos herramientas es un sitio donde puede
 quedarse atrás*: lo repetido va a `comun/`, y la diferencia que era de verdad entre copias pasa a ser un parámetro.
+
+Todo lo de las herramientas —la ficha, los estantes, `comun/` y el código que corre en otra máquina—
+está explicado en **`LA_BIBLIOTECA.md`**.
 
 > ⛔ **Editar un mapa a mano es reintroducir exactamente ese fallo.** Cada mapa lleva el aviso
 > escrito dentro de sí mismo, en la primera línea, porque el que lo va a editar a mano no va a

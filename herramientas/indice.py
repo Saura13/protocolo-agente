@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 u"""El índice: una base SQLite generada sobre los documentos de texto. Se genera, no se escribe.
 
+Contesta: ¿está al día el índice de los documentos (diario, bugs, criterios, memoria)?
+Toca: escribe la base SQLite del índice (.indice/), que es generada y no va a git.
+Necesita: protocolo.config.json con «indice».
+
     python indice.py            pone el índice al día (solo relee lo que cambió)
     python indice.py --desde-cero
 

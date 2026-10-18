@@ -2,6 +2,10 @@
 # -*- coding: utf-8 -*-
 """¿Se puede cerrar la sesión? Comprueba la lista de cierre en vez de recordarla.
 
+Contesta: ¿se puede cerrar la sesión: techos, diario con resultado, mapas al día, siguiente con su modelo, todo en git?
+Toca: ejecuta git solo para preguntar (estado, ramas, commits); no escribe nada.
+Necesita: protocolo.config.json con «cierre».
+
 Por qué existe: la lista de comprobación estaba escrita y aun así se saltaba, porque cumplirla
 dependía de acordarse justo cuando el contexto se estaba agotando — que es el peor momento para
 acordarse de nada.
@@ -17,7 +21,10 @@ Qué comprueba, todo mecánicamente:
      aquello terminó o se cortó a la mitad.
   3. **Los mapas no son más viejos que el código** que dicen mapear. Un mapa desactualizado
      apunta a líneas equivocadas, y eso es peor que no tenerlo.
-  4. **No quedan cambios sin registrar** en git, y la rama no se queda sin juntar con la principal (aviso).
+  4. **Cada «siguiente» dice con qué modelo se abre** (p. ej. `[Opus]` / `[Sonnet]`), si se declara
+     «cierre.siguiente». Decirlo al cerrar avisa al usuario ANTES de abrir la próxima sesión; al
+     arrancar ya llega tarde, porque la sesión ya está abierta con un modelo.
+  5. **No quedan cambios sin registrar** en git, y la rama no se queda sin juntar con la principal (aviso).
 
 Lo que NO comprueba, y hay que mirar a mano: que el estado diga cuál es el siguiente paso, que el
 registro de bugs refleje la realidad, y que el mensaje del commit explique el porqué. Un programa
@@ -188,6 +195,43 @@ def comprobar_hoja_de_vias(raiz_p, cfg):
     return [u"la hoja de vías no está generada de sus fichas"]
 
 
+def lineas_siguiente_sin_modelo(lineas, marca, palabra, etiquetas):
+    u"""Las líneas que anuncian un siguiente paso sin decir con qué modelo se abre. Pura: (nº, texto)."""
+    return [(i, l.strip()) for i, l in enumerate(lineas, 1)
+            if marca in l and palabra.lower() in l.lower() and not any(e in l for e in etiquetas)]
+
+
+def comprobar_siguiente_con_modelo(raiz_p, cierre):
+    u"""Cada «siguiente» de la hoja de vías dice con qué modelo se abre la sesión que lo haga.
+
+    El modelo se elige al ABRIR la sesión: cambiarlo a mitad no hereda la caché y se repaga el arranque.
+    Por eso se dice al cerrar la anterior, no al arrancar la nueva. Opcional: sin «cierre.siguiente», no se mira.
+    """
+    fallos = []
+    cfg = cierre.get("siguiente") or {}
+    rel = cfg.get("documento")
+    if not rel:
+        print(AVISO, u"no hay «cierre.siguiente» declarado — no se comprueba")
+        return fallos
+    ruta = os.path.join(raiz_p, rel)
+    if not os.path.isfile(ruta):
+        fallos.append(u"no existe %s" % rel)
+        print(FALLO, u"%s — no existe" % rel)
+        return fallos
+    etiquetas = cfg.get("etiquetas") or []
+    with open(ruta, encoding="utf-8", errors="ignore") as fh:
+        sin = lineas_siguiente_sin_modelo(fh.readlines(), cfg.get("marca", u"⏭️"),
+                                          cfg.get("palabra", u"siguiente"), etiquetas)
+    if sin:
+        fallos.append(u"%d «siguiente» sin modelo en %s" % (len(sin), rel))
+        print(FALLO, u"%s — %d «siguiente» sin %s:" % (rel, len(sin), u" ni ".join(etiquetas)))
+        for i, texto in sin:
+            print(u"           línea %d: %s" % (i, texto[:90]))
+    else:
+        print(OK, u"%s — cada «siguiente» dice su modelo" % rel)
+    return fallos
+
+
 def comprobar_git(raiz_p):
     fallos = []
     try:
@@ -264,7 +308,9 @@ def main():
     fallos += comprobar_diario(raiz_p, cierre)
     print(u"\n3. Los mapas están al día")
     fallos += comprobar_mapas(raiz_p, cfg, cierre)
-    print(u"\n4. Todo registrado en git y juntado con la principal")
+    print(u"\n4. Cada siguiente paso dice con qué modelo se abre")
+    fallos += comprobar_siguiente_con_modelo(raiz_p, cierre)
+    print(u"\n5. Todo registrado en git y juntado con la principal")
     fallos += comprobar_git(raiz_p)
     fallos += comprobar_rama(raiz_p, cierre)
 
@@ -281,6 +327,8 @@ def main():
     print(u"   · ¿El registro de bugs refleja el estado real, no el de cuando se escribió?")
     print(u"   · ¿El mensaje del commit explica el PORQUÉ? El qué ya está en el diff.")
     print(u"   · ¿Se verificó que no se rompió nada, POR DONDE ENTRA EL USUARIO?")
+    print(u"   · ¿Se ha dicho al usuario CON QUÉ MODELO abrir la próxima sesión?")
+    print(u"   · ¿La próxima sesión queda PREPARADA (receta cerrada), y esta se archiva al abrirla?")
 
     sys.exit(1 if fallos else 0)
 

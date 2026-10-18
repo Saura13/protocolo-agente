@@ -184,25 +184,49 @@ Un registro con cuarenta bugs abiertos no dice que haya cuarenta cosas rotas. Di
 Si el sistema lo usa una persona a diario, reiniciarlo no es una operación técnica: es interrumpirle
 el día. Se pregunta. Siempre. Aunque sea obvio, aunque sea rápido, aunque ya se hiciera ayer.
 
+### 27. El código que corre fuera se cambia en un solo sitio, y se despliega en un solo sentido
+
+Si unas cosas se arreglan en el servidor y se traen, y otras se arreglan en casa y se suben, tarde o
+temprano un despliegue borra un arreglo que solo vivía allí. **Casa manda**, la otra máquina no se
+parchea en sitio, y el despliegue compara tres huellas —casa, servidor y la del último despliegue—
+para saber **quién** cambió cada fichero. Si cambió allí, se niega entero. Detalle en `LA_BIBLIOTECA.md` §4.
+
+### 28. Una receta que el agente va a ejecutar solo se prueba al escribirla, no al correrla
+
+Cada orden que escribe, seguida de su comprobación; cada dirección y cada fichero, abiertos al prepararla
+**desde donde se van a usar**; y una regla de parada. Cuando una sesión se atasca siguiendo una receta,
+casi siempre el fallo es de la receta, no del modelo que la sigue.
+
 ---
 
 ## Parte 4 · Sobre el propio protocolo
 
-### 27. Lo compartible es cómo se trabaja, no con qué se trabaja
+### 29. Lo compartible es cómo se trabaja, no con qué se trabaja
 
 El material de un proyecto es suyo y no le sirve a nadie más. El método sí.
 
-### 28. Dos copias del mismo texto no se mantienen
+### 30. Dos copias del mismo texto no se mantienen
 
 Vale para el código, para la documentación y para los ficheros de instrucciones de los agentes. Si
 un texto tiene que estar en dos sitios, uno de los dos es un puntero al otro.
 
-### 29. El coste de releer crece con el cuadrado de los turnos
+### 31. El coste de releer crece con el cuadrado de los turnos
 
 Un mensaje intermedio no cuesta lo que ocupa: cuesta eso multiplicado por todos los turnos que
 vengan después. De ahí que se trabaje seguido y se informe una vez.
 
-### 30. Lo que el agente lee al arrancar es el diseño más importante del proyecto
+### 32. Lo que el agente lee al arrancar es el diseño más importante del proyecto
 
 Es lo único que sabe. Todo lo demás —lo bien documentado que esté el resto, lo ordenado que sea el
 repositorio— solo cuenta si el arranque lo alcanza.
+
+### 33. El modelo se elige al abrir la sesión, y se dice al cerrar la anterior
+
+Cambiar de modelo a mitad no hereda la caché ni el razonamiento: se repaga el arranque entero. Por eso
+cada paso planificado lleva su modelo, los pasos seguidos del mismo modelo van juntos, y la sesión que
+cierra dice con cuál se abre la siguiente — al arrancar ya llega tarde.
+
+### 34. Una sesión viva sigue costando aunque nadie le hable
+
+Cada mensaje que recibe se paga releyendo todo su historial. Cuando el trabajo pasa a otra sesión, la
+vieja se archiva en el acto, sin esperar su informe: lo que tenía que decir ya está en el diario.

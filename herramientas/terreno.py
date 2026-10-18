@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 u"""Contra qué se va a medir se comprueba AQUÍ, y en ningún otro sitio.
 
+Contesta: ¿existe de verdad la carpeta o el fichero contra el que voy a medir?
+Toca: nada (solo lee).
+
 **Qué problema resuelve**: un medidor apuntaba por defecto a una carpeta que no existía y
 devolvió **«0 apariciones»**. Se leyó como «está limpio». Con la ruta correcta, el mismo comando
 dio 26. El fallo no fue la ruta: fue que la función **devolvía lista vacía cuando el directorio

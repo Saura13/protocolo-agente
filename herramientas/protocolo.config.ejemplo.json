@@ -34,7 +34,9 @@
     "_diario": "Un fichero (docs/DIARIO.md) o una carpeta con un fichero por mes (AAAA-MM.md): la carpeta no crece sin techo. apuntar.py escribe en el del mes en curso.",
     "marcador_resultado": "### RESULTADO",
     "marcador_entrada": "## ",
-    "mapas": ["docs/MAPA_CODIGO.md", "docs/MAPA_HERRAMIENTAS.md"]
+    "mapas": ["docs/MAPA_CODIGO.md", "docs/MAPA_HERRAMIENTAS.md"],
+    "siguiente": { "documento": "docs/VIAS_DE_TRABAJO.md", "marca": "⏭️", "palabra": "siguiente", "etiquetas": ["[Opus]", "[Sonnet]"] },
+    "_siguiente": "Cada línea que anuncia un siguiente paso (lleva la marca y la palabra) dice con qué modelo se abre la sesión que lo haga. Las etiquetas son las tuyas: un modelo que juzga y otro que ejecuta. Bórralo si trabajas con un solo modelo."
   },
   "_cierre": "Lo que comprueba comprobar_cierre.py. Los techos son los de los documentos que se leen al arrancar: si uno se pasa, se poda ANTES de cerrar. Los mapas se comparan con la fecha del código: uno más viejo que el código apunta a líneas equivocadas.",
 

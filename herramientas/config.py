@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 u"""Dónde está cada cosa en ESTE proyecto — declarado una vez, en un fichero.
 
+Contesta: ¿dónde está cada cosa en este proyecto (protocolo.config.json)?
+Toca: nada (solo lee).
+
 Las herramientas de este protocolo no llevan dentro ninguna ruta del proyecto. La razón es la
 regla de fondo: *criterios generales, nunca listas de casos*. Una herramienta con rutas cableadas
 sirve a un proyecto y estorba en el siguiente.

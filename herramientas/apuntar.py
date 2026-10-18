@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 u"""Escribir en el diario y dejar avisos, con su formato y sin que dos agentes se pisen.
 
+Contesta: ¿cómo dejo una entrada, su resultado o un aviso entre vías con su formato, y con qué letra del día?
+Toca: escribe en el diario del mes (o en el fichero de avisos), bajo un cerrojo en el almacén común de git.
+Necesita: protocolo.config.json con «cierre.diario» (y «avisos» para los avisos).
+
     python apuntar.py entrada  --titulo "Vía A: BUG-040" --modelo Opus --texto intencion.md
     python apuntar.py resultado --letra N --titulo "✅ hecho" --texto resultado.md
     python apuntar.py aviso    --de F --a G --titulo "cambia el formato del libro" --texto aviso.md

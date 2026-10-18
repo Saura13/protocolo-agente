@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 u"""La hoja de vías se GENERA de una ficha por vía. Se edita la ficha, no la hoja.
 
+Contesta: ¿está la hoja de vías al día con sus fichas, y cuánto pesa cada una?
+Toca: escribe VIAS_DE_TRABAJO.md (con --comprobar, nada).
+Necesita: protocolo.config.json con «vias».
+
     python generar_vias.py              escribe la hoja y dice cuánto pesa cada ficha
     python generar_vias.py --comprobar  solo mira si la hoja está al día (sale 1 si no)
 

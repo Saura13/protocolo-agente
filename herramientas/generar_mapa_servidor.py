@@ -3,6 +3,10 @@
 """
 Genera MAPA_SERVIDOR.md leyendo el código real de una máquina remota.
 
+Contesta: ¿en qué líneas vive cada función del código que corre en otra máquina?
+Toca: trae una copia temporal por scp (se borra al acabar) y escribe MAPA_SERVIDOR.md; en la máquina remota no escribe nada.
+Necesita: acceso por scp sin contraseña y «remoto» en protocolo.config.json.
+
 Por qué existe: cuando parte del código vive fuera del repositorio —en un servidor, en un
 contenedor—, no aparece en el mapa local. Cada sesión que lo tocaba volvía a localizar a mano en
 qué línea está cada función. Ese es el mayor gasto recurrente de contexto que tiene un proyecto

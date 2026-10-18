@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 u"""Preguntarle a la casa en vez de rebuscar en ella. Solo lee, no toca nada.
 
+Contesta: ¿qué trozos de los documentos hablan de X, qué toca a X y qué avisos tiene una vía?
+Toca: nada (solo lee; si el índice está viejo, lo pone al día con indice.py).
+Necesita: protocolo.config.json con «indice».
+
     python consultar.py palabras sueltas      los 10 trozos que mejor casan, con fichero:línea
     python consultar.py --toca BUG-040        qué es, a qué enlaza y quién lo nombra
     python consultar.py --toca nombre-de-nota lo mismo con una nota de memoria o un [[enlace]]

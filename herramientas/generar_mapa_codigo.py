@@ -3,6 +3,10 @@
 """
 Genera MAPA_CODIGO.md leyendo el código real.
 
+Contesta: ¿en qué líneas exactas vive cada función y cada ruta de la API?
+Toca: escribe MAPA_CODIGO.md en la carpeta «salida».
+Necesita: protocolo.config.json con «zonas».
+
 Por qué existe: un índice escrito a mano en la cabecera de un fichero apuntaba a líneas
 equivocadas, porque nadie lo actualizaba al mover el código. El agente leía el rango que el
 índice decía, encontraba otra cosa y trabajaba sobre suposiciones.

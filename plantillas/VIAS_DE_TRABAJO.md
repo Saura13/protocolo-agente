@@ -35,7 +35,7 @@ saltar de una a otra dentro de la misma sesión.
 
 **En qué punto está**: \<dos o tres líneas, en presente\>.
 
-**⏭️ SIGUIENTE SESIÓN**: \<un solo paso, concreto\>.
+**⏭️ SIGUIENTE SESIÓN** [Opus]: \<un solo paso, concreto\>.
 ⚠️ \<Si pide un permiso o tiene un riesgo, decirlo aquí y no en otro sitio.\>
 
 ---
@@ -50,7 +50,7 @@ saltar de una a otra dentro de la misma sesión.
 
 **En qué punto está**: \<dos o tres líneas\>.
 
-**⏭️ Siguiente paso**: \<uno solo\>.
+**⏭️ Siguiente paso** [Sonnet]: \<uno solo\>.
 
 ---
 

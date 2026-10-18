@@ -23,8 +23,10 @@ Cuando el usuario escriba eso, hacer **exactamente esto y nada más**:
    no se leen para buscar: se **pregunta** — `python herramientas/consultar.py "<tema>"` da diez
    trozos con fichero:línea, y `--avisos <vía>` enseña lo que otras vías decidieron que te toca.
 4. Comprobar que el sistema responde: `<comando de vida: un ping, un docker ps, un curl>`
-5. Responder en **menos de 15 líneas**: dónde estamos, cuál es el siguiente paso, qué está
-   bloqueado. Y **esperar el visto bueno** antes de tocar nada.
+5. **¿Hay otra sesión viva?** Si la hay, nombre propio en cada una y, **antes de** tocar el entorno real o un
+   documento común, avisarla y esperar su respuesta (`PROTOCOLO_SESION.md` §9).
+6. Responder en **menos de 15 líneas**: dónde estamos, cuál es el siguiente paso, qué está
+   bloqueado, qué otra sesión hay viva y **qué modelo pide ese paso**. Y **esperar el visto bueno**.
 
 No leer nada más en ese arranque. Nada de auditorías, planes ni código: eso se abre **después**, y
 solo lo que pida la tarea concreta.
@@ -89,11 +91,9 @@ python herramientas/generar_mapa_codigo.py
 ⛔ **Nunca editarlo a mano**: un índice mantenido a mano acaba apuntando a líneas equivocadas, y un
 índice que miente es peor que ninguno.
 
-**Antes de crear una herramienta, preguntar** (`consultar.py` y `MAPA_HERRAMIENTAS.md`): si ya hay una que
-contesta, se usa o se amplía. La nueva lleva **ficha** en su docstring —`Contesta:` / `Toca:` / `Necesita:`, una
-línea cada una— y el mapa la comprueba contra el código. **Los nombres no se mueven** (están citados): lo que se
-aparta va a un estante — `_usados/AAAA-MM/` los guiones de un solo uso, `datos/` lo que leen y escriben, `comun/`
-el código que estaba copiado en varias, probado contra la copia que sustituye.
+**Las herramientas son una biblioteca** (`LA_BIBLIOTECA.md`): antes de crear una, se pregunta (`consultar.py` y
+`MAPA_HERRAMIENTAS.md`); la nueva lleva **ficha** (`Contesta:` / `Toca:` / `Necesita:`); los nombres no se mueven,
+lo apartado va a su estante; y el código que corre en otra máquina **se cambia aquí y se despliega**, no allí.
 
 **Qué abrir según la tarea:**
 
@@ -132,10 +132,12 @@ python herramientas/comprobar_cierre.py
 6. ¿Commit hecho, con mensaje que explique **el porqué**, y **la rama juntada** con `juntar_rama.py --juntar`? Nunca
    a mano: suma diario y avisos, regenera lo generado y frena —sin tocar nada— si algo se fuera a perder.
 7. ¿Verificado que no se rompió nada?
+8. ¿Dicho al usuario **con qué modelo abrir la siguiente**? El `⏭️ siguiente` lleva `[Opus]`/`[Sonnet]`.
+9. ¿La siguiente **queda preparada** como receta cerrada? Y en cuanto arranca, **esta se archiva**.
 
 Si algo de esto falta, **no se cierra la sesión todavía**.
-🔑 *Una regla que depende de que alguien la teclee no es una regla*: los puntos 1, 5 y 6 los
-comprueba `comprobar_cierre.py`; los demás hay que mirarlos. La tabla de qué se actualiza y
+🔑 *Una regla que depende de que alguien la teclee no es una regla*: los puntos 1, 5, 6 y la etiqueta
+del 8 los comprueba `comprobar_cierre.py`; los demás hay que mirarlos. La tabla de qué se actualiza y
 dónde se apunta está en `PROTOCOLO_SESION.md` §5.
 
 **Cuándo pedir que se cierre la sesión**: cuando el asunto esté terminado y registrado, o cuando se
@@ -155,6 +157,8 @@ con contexto limpio»*.
 | `CRITERIOS.md` | **Lo que no se vuelve a razonar.** Lo que sobrevive a este proyecto |
 | `MAPA_CODIGO.md` | **Dónde está cada cosa.** Función → líneas exactas. **Generado** |
 | `MAPA_HERRAMIENTAS.md` | **Qué pregunta contesta cada herramienta** y si toca algo al correrla. **Generado** |
+| `AVISOS_ENTRE_VIAS.md` | **Lo que una vía decide y cambia a otra.** `apuntar.py aviso` / `consultar.py --avisos X` |
+| `GUIA_<OPERACIÓN>.md` | **Cómo se hace lo que se repite**: qué va a cada manera, qué orden, cómo se verifica |
 
 Detalle de la función de cada uno: `LOS_DOCUMENTOS.md`.
 

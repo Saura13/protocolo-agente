@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 u"""El diario: dónde está, cómo se reconoce una entrada y cómo se escribe sin pisarse.
 
+Contesta: ¿cuál es el diario de ahora, dónde empieza cada entrada y cuál es la última?
+Toca: lo escribe solo quien lo pide (apuntar.py); por sí solo, nada.
+
 Lo usan `apuntar.py` (escribe), `consultar.py` (lee la última) y `comprobar_cierre.py` (mira que
 la última tenga resultado). Vive aquí una sola vez para que los tres entiendan lo mismo por
 «entrada» y por «el diario de ahora».
